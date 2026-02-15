@@ -5,7 +5,7 @@ function BottomNav({ activeTab, onTabChange }) {
     { id: 'home', label: 'Home', icon: '🏠' },
     { id: 'search', label: 'Search', icon: '🔍' },
     { id: 'coming', label: 'Coming Soon', icon: '📅' },
-    { id: 'downloads', label: 'Downloads', icon: '⬇️' },
+    { id: 'info', label: 'About', icon: 'ℹ️' },
   ];
 
   return (

@@ -5,6 +5,7 @@ import requests from "../Requests";
 import Row from "../Row";
 import MovieModal from "../MovieModal";
 import BottomNav from "../BottomNav";
+import InfoScreen from "./InfoScreen";
 
 const GENRES = [
   { id: 28, name: "Action" },
@@ -93,6 +94,10 @@ function HomeScreen() {
           )}
         </div>
       );
+    }
+
+    if (activeTab === 'info') {
+      return <InfoScreen />;
     }
 
     if (activeTab === 'coming') {
