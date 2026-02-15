@@ -1,41 +1,99 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import React, { useEffect, useState, useRef } from "react";
 
-function Nav() {
-  const [show, handleShow] = useState(false);
-  const history = useHistory();
+function Nav({ onSearch }) {
+  const [show, setShow] = useState(false);
+  const [searchVisible, setSearchVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchRef = useRef(null);
 
-  const transitionNavBar = () => {
-    if (window.scrollY > 100) {
-      handleShow(true);
-    } else {
-      handleShow(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setShow(true);
+      } else {
+        setShow(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setSearchVisible(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    if (onSearch) {
+      onSearch(query);
     }
   };
 
-  useEffect(() => {
-    window.addEventListener("scroll", transitionNavBar);
-    return () => window.removeEventListener("scroll", transitionNavBar);
-  }, []);
+  const toggleSearch = () => {
+    setSearchVisible(!searchVisible);
+    if (!searchVisible) {
+      setTimeout(() => {
+        const input = document.querySelector('.search__input');
+        if (input) input.focus();
+      }, 100);
+    }
+  };
 
   return (
-    <div
-      className={`nav_black ${
-        show && "bg-gradient-to-b from-black to-gray-sdark via-gray-black"
-      } fixed top-0 p-5 w-full h-16 z-10 transition ease-in duration-500`}
-    >
-      <div className="nav_contents flex justify-between">
+    <div className={`nav ${show && "nav--black"}`}>
+      <div className="nav__left">
         <img
-          onClick={() => history.push("/")}
-          className="nav_logo top-0 w-28 ml-3 md:ml-12 fixed left-0 cursor-pointer object-contain"
-          src="https://assets.stickpng.com/images/580b57fcd9996e24bc43c529.png"
-          alt=""
+          className="nav__logo"
+          src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg"
+          alt="Netflix"
         />
+      </div>
+      
+      <div className="nav__right">
+        <div className="search__container" ref={searchRef}>
+          {searchVisible && (
+            <input
+              type="text"
+              className="search__input"
+              placeholder="Titles, people, genres"
+              value={searchQuery}
+              onChange={handleSearchChange}
+            />
+          )}
+          <button
+            onClick={toggleSearch}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '8px'
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="white"
+              style={{ filter: 'drop-shadow(0 0 2px rgba(0,0,0,0.5))' }}
+            >
+              <path d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM11 18a7 7 0 1 1 7-7 7 7 0 0 1-7 7z"/>
+            </svg>
+          </button>
+        </div>
+        
         <img
-          onClick={() => history.push("/profile")}
-          className="nav_avatar fixed right-5 md:right-14 w-9 top-4 cursor-pointer "
-          src="https://i.pinimg.com/originals/0d/dc/ca/0ddccae723d85a703b798a5e682c23c1.png"
-          alt=""
+          className="nav__avatar"
+          src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
+          alt="User"
         />
       </div>
     </div>
