@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 
-function Nav({ onSearch }) {
+function Nav({ onSearch, onAboutClick }) {
   const [show, setShow] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -89,6 +89,32 @@ function Nav({ onSearch }) {
             </svg>
           </button>
         </div>
+        
+        <button
+          onClick={onAboutClick}
+          style={{
+            background: 'transparent',
+            border: '2px solid white',
+            color: 'white',
+            padding: '6px 16px',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontWeight: '600',
+            fontSize: '0.85rem',
+            marginRight: '10px',
+            transition: 'all 0.2s'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.background = 'white';
+            e.target.style.color = 'black';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.background = 'transparent';
+            e.target.style.color = 'white';
+          }}
+        >
+          About
+        </button>
         
         <img
           className="nav__avatar"

@@ -78,6 +78,11 @@ function HomeScreen() {
     }
   };
 
+  const handleAboutClick = () => {
+    setActiveTab('info');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const renderContent = () => {
     if (activeTab === 'search') {
       return (
@@ -142,13 +147,51 @@ function HomeScreen() {
 
     return (
       <div className="homeScreen">
-        <Nav onSearch={handleSearch} />
+        <Nav onSearch={handleSearch} onAboutClick={handleAboutClick} />
         
         <Banner onMovieClick={handleMovieClick} />
         
         {activeTab === 'home' && (
           <>
-            <div className="genre__chips" style={{ paddingTop: '20px' }}>
+            <div 
+              onClick={handleAboutClick}
+              style={{
+                margin: '20px',
+                padding: '30px',
+                background: 'linear-gradient(135deg, #E50914 0%, #b2070f 100%)',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                textAlign: 'center',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.02)';
+                e.currentTarget.style.boxShadow = '0 10px 40px rgba(229, 9, 20, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            >
+              <h2 style={{ fontSize: '1.8rem', fontWeight: '800', marginBottom: '10px' }}>
+                👨‍💻 Meet the Developer
+              </h2>
+              <p style={{ fontSize: '1.1rem', opacity: 0.9, marginBottom: '15px' }}>
+                Built by Juan Gabriel Garcia • React + Vite + TMDB
+              </p>
+              <span style={{ 
+                background: 'white', 
+                color: '#E50914', 
+                padding: '10px 24px', 
+                borderRadius: '4px',
+                fontWeight: '700',
+                fontSize: '0.95rem'
+              }}>
+                Learn More →
+              </span>
+            </div>
+
+            <div className="genre__chips" style={{ paddingTop: '0px' }}>
               {GENRES.slice(0, 10).map((genre) => (
                 <button
                   key={genre.id}
