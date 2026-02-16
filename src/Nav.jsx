@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 
-function Nav({ onSearch, onAboutClick }) {
+function Nav({ onSearch, onAboutClick, onHomeClick }) {
   const [show, setShow] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -54,11 +54,13 @@ function Nav({ onSearch, onAboutClick }) {
           className="nav__logo"
           src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg"
           alt="Netflix"
+          onClick={onHomeClick}
+          style={{ cursor: 'pointer' }}
         />
       </div>
       
-      <div className="nav__right">
-        <div className="search__container" ref={searchRef}>
+      <div className="nav__right" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+        <div className="search__container" ref={searchRef} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {searchVisible && (
             <input
               type="text"
@@ -101,8 +103,8 @@ function Nav({ onSearch, onAboutClick }) {
             cursor: 'pointer',
             fontWeight: '600',
             fontSize: '0.85rem',
-            marginRight: '10px',
-            transition: 'all 0.2s'
+            transition: 'all 0.2s',
+            whiteSpace: 'nowrap'
           }}
           onMouseEnter={(e) => {
             e.target.style.background = 'white';

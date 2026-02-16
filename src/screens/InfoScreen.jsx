@@ -1,6 +1,6 @@
 import React from "react";
 
-function InfoScreen() {
+function InfoScreen({ onClose }) {
   const developer = {
     name: "Juan Gabriel Garcia",
     role: "Full Stack Developer",
@@ -36,6 +36,31 @@ function InfoScreen() {
       minHeight: '100vh',
       background: '#141414'
     }}>
+      <button
+        onClick={onClose}
+        style={{
+          position: 'fixed',
+          top: '80px',
+          right: '20px',
+          background: '#E50914',
+          color: 'white',
+          border: 'none',
+          padding: '10px 20px',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          fontWeight: '600',
+          zIndex: 100,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          transition: 'background 0.2s'
+        }}
+        onMouseEnter={(e) => e.target.style.background = '#b2070f'}
+        onMouseLeave={(e) => e.target.style.background = '#E50914'}
+      >
+        ← Back to Home
+      </button>
+
       <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 20px' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <h1 style={{ 
@@ -72,14 +97,15 @@ function InfoScreen() {
               alignItems: 'center',
               justifyContent: 'center',
               fontSize: '2rem',
-              fontWeight: 'bold'
+              fontWeight: 'bold',
+              flexShrink: 0
             }}>
               {developer.name.split(' ').map(n => n[0]).join('')}
             </div>
             <div>
               <h3 style={{ fontSize: '1.3rem', fontWeight: '600' }}>{developer.name}</h3>
               <p style={{ color: '#999', marginBottom: '10px' }}>{developer.role}</p>
-              <div style={{ display: 'flex', gap: '10px' }}>
+              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                 <a 
                   href={developer.github}
                   target="_blank"
